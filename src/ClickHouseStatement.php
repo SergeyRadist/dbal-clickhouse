@@ -312,10 +312,12 @@ class ClickHouseStatement implements \IteratorAggregate, \Doctrine\DBAL\Driver\S
             if (strtoupper(substr($sql, -11)) !== 'FORMAT JSON') {
                 $sql .= ' FORMAT JSON';
             }
-        }
+            $this->rows = $this->smi2CHClient->select($sql)->rows();
+        } else {
 
-        //TODO catch in Driver and convert into DBALExceptions all SMI2's exceptions
-        $this->rows = $this->smi2CHClient->write($sql)->rows();
+            //TODO catch in Driver and convert into DBALExceptions all SMI2's exceptions
+            $this->rows = $this->smi2CHClient->write($sql)->rows();
+        }
     }
 
     /**
